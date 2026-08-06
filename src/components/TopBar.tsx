@@ -1,6 +1,5 @@
 import React from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import { LanguageSelector } from './LanguageSelector';
 import { useLanguage } from '../lib/i18n';
 
 interface TopBarProps {
@@ -22,7 +21,7 @@ export const TopBar: React.FC<TopBarProps> = () => {
             className="flex items-center space-x-1.5 hover:text-red-200 transition-colors"
           >
             <Phone className="w-3.5 h-3.5 text-amber-300" />
-            <span className="font-bold" data-i18n="topbar.phone">{t('topbar.phone', '+880 1771-304219')}</span>
+            <span className="font-bold" data-i18n="topbar.phone">{t('topbar.phone', '+৮৮০ ১৭৭১-৩০৪২১৯')}</span>
           </a>
           <a
             href="mailto:dreamsflyinternational@gmail.com"
@@ -33,7 +32,7 @@ export const TopBar: React.FC<TopBarProps> = () => {
           </a>
           <div className="flex items-center space-x-1.5 text-red-100">
             <MapPin className="w-3.5 h-3.5 text-amber-300" />
-            <span data-i18n="topbar.location">{t('topbar.location', 'Mirpur 11, Dhaka & Chapainawabganj')}</span>
+            <span data-i18n="topbar.location">{t('topbar.location', 'মিরপুর ১১, ঢাকা ও চাঁপাইনবাবগঞ্জ')}</span>
           </div>
         </div>
 
@@ -74,11 +73,8 @@ export const TopBar: React.FC<TopBarProps> = () => {
             className="px-2.5 py-1 bg-white text-[#B71C1C] rounded font-black uppercase text-[10px] tracking-wider hover:bg-gray-100 transition-colors shadow-sm"
             data-i18n="topbar.whatsapp"
           >
-            {t('topbar.whatsapp', 'WhatsApp Support')}
+            {t('topbar.whatsapp', 'হোয়াটসঅ্যাপ সাপোর্ট')}
           </a>
-
-          {/* Auto Language Switcher */}
-          <LanguageSelector variant="topbar" />
         </div>
       </div>
     </div>

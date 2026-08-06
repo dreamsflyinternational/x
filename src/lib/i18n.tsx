@@ -426,35 +426,22 @@ export const translations: Record<Language, TranslationDictionary> = {
 };
 
 /**
- * Get current saved language preference
+ * Get current saved language preference (Strictly Bangla)
  */
 export function getStoredLanguage(): Language {
-  if (typeof window === 'undefined') return 'bn';
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY) as Language;
-    if (saved === 'bn' || saved === 'en') return saved;
-  } catch (e) {
-    // Ignore storage restrictions
-  }
   return 'bn';
 }
 
 /**
  * Perform instant DOM translation for elements matching data-i18n attributes
  */
-export function applyInstantLanguage(lang: Language, root: ParentNode = document) {
+export function applyInstantLanguage(lang: Language = 'bn', root: ParentNode = document) {
   if (typeof window === 'undefined') return;
 
-  try {
-    localStorage.setItem(STORAGE_KEY, lang);
-  } catch (e) {
-    // Ignore
-  }
-
   // Sync document level language attribute
-  document.documentElement.lang = lang === 'bn' ? 'bn' : 'en';
+  document.documentElement.lang = 'bn';
 
-  const dict = translations[lang] || translations.bn;
+  const dict = translations.bn;
 
   // 1. Target all elements with data-i18n attribute (text or innerHTML)
   const textElements = root.querySelectorAll('[data-i18n]');
@@ -500,36 +487,31 @@ export function applyInstantLanguage(lang: Language, root: ParentNode = document
       (el as HTMLImageElement).alt = dict[key];
     }
   });
-
-  // Dispatch custom event for React components relying on state hooks
-  window.dispatchEvent(new CustomEvent('df-language-change', { detail: { lang } }));
 }
 
 // Attach a global translation manager to `window.i18n` and `window.translationManager`
 if (typeof window !== 'undefined') {
   const manager = {
-    getLanguage: getStoredLanguage,
-    setLanguage: (lang: Language) => applyInstantLanguage(lang),
+    getLanguage: () => 'bn',
+    setLanguage: () => applyInstantLanguage('bn'),
     t: (key: string, fallback?: string): string => {
-      const currentLang = getStoredLanguage();
-      return translations[currentLang]?.[key] || fallback || key;
+      return translations.bn?.[key] || fallback || key;
     },
     translateDOM: (targetRoot?: ParentNode) => {
-      applyInstantLanguage(getStoredLanguage(), targetRoot || document);
+      applyInstantLanguage('bn', targetRoot || document);
     }
   };
 
   (window as any).i18n = manager;
   (window as any).translationManager = manager;
 
-  // Set up MutationObserver to automatically translate newly inserted DOM nodes instantly!
+  // Set up MutationObserver to automatically apply Bangla text to newly inserted DOM nodes
   if (typeof MutationObserver !== 'undefined') {
     const observer = new MutationObserver((mutations) => {
-      const currentLang = getStoredLanguage();
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
           if (node.nodeType === Node.ELEMENT_NODE) {
-            applyInstantLanguage(currentLang, node as Element);
+            applyInstantLanguage('bn', node as Element);
           }
         });
       });
@@ -539,11 +521,11 @@ if (typeof window !== 'undefined') {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
         observer.observe(document.body, { childList: true, subtree: true });
-        applyInstantLanguage(getStoredLanguage());
+        applyInstantLanguage('bn');
       });
     } else {
       observer.observe(document.body, { childList: true, subtree: true });
-      applyInstantLanguage(getStoredLanguage());
+      applyInstantLanguage('bn');
     }
   }
 }
@@ -561,37 +543,20 @@ const LanguageContext = createContext<LanguageContextType>({
 });
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [lang, setLangState] = useState<Language>('bn');
-
   useEffect(() => {
-    const initialLang = getStoredLanguage();
-    setLangState(initialLang);
-
-    // Initial DOM translation scan
-    applyInstantLanguage(initialLang);
-
-    const handleLangChangeEvent = (e: Event) => {
-      const customEvt = e as CustomEvent<{ lang: Language }>;
-      if (customEvt.detail && customEvt.detail.lang) {
-        setLangState(customEvt.detail.lang);
-      }
-    };
-
-    window.addEventListener('df-language-change', handleLangChangeEvent);
-    return () => window.removeEventListener('df-language-change', handleLangChangeEvent);
+    applyInstantLanguage('bn');
   }, []);
 
-  const setLang = (newLang: Language) => {
-    setLangState(newLang);
-    applyInstantLanguage(newLang);
+  const setLang = () => {
+    applyInstantLanguage('bn');
   };
 
   const t = (key: string, fallback?: string): string => {
-    return translations[lang]?.[key] || fallback || key;
+    return translations.bn?.[key] || fallback || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t }}>
+    <LanguageContext.Provider value={{ lang: 'bn', setLang, t }}>
       {children}
     </LanguageContext.Provider>
   );
