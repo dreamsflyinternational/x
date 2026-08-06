@@ -210,34 +210,19 @@ export const SeoHeadManager: React.FC<SeoHeadManagerProps> = ({
     // Update document title
     document.title = title;
 
-    // Helper for hreflang links
-    const updateHreflang = (langCode: string, href: string) => {
-      let tag = document.querySelector(`link[rel="alternate"][hreflang="${langCode}"]`);
-      if (!tag) {
-        tag = document.createElement('link');
-        tag.setAttribute('rel', 'alternate');
-        tag.setAttribute('hreflang', langCode);
-        document.head.appendChild(tag);
-      }
-      tag.setAttribute('href', href);
-    };
-
     const pathname = window.location.pathname;
     let raw = pathname.trim().replace(/\/$/, '') || '/';
     let cleanPath = raw;
     if (raw === '/bn' || raw.startsWith('/bn/')) cleanPath = raw.replace(/^\/bn/, '') || '/';
     if (raw === '/en' || raw.startsWith('/en/')) cleanPath = raw.replace(/^\/en/, '') || '/';
 
-    const bnUrl = `${BASE_URL}/bn${cleanPath === '/' ? '' : cleanPath}`;
-    const enUrl = `${BASE_URL}/en${cleanPath === '/' ? '' : cleanPath}`;
+    const cleanUrl = `${BASE_URL}${cleanPath === '/' ? '' : cleanPath}`;
 
-    updateHreflang('bn', bnUrl);
-    updateHreflang('en', enUrl);
-    updateHreflang('x-default', enUrl);
+    // Remove any legacy hreflang tags if present
+    document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
 
     // Update <html lang="...">
-    const currentLang = raw.startsWith('/en') ? 'en' : 'bn';
-    document.documentElement.setAttribute('lang', currentLang);
+    document.documentElement.setAttribute('lang', 'bn');
 
     // Helper to update or create meta tag
     const updateMetaTag = (selector: string, attrName: string, attrVal: string, contentVal: string) => {

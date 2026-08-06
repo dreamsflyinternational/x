@@ -37,18 +37,15 @@ export function generateSeoDataForPath(pathname: string): SeoMetaData {
     cleanPath = raw.replace(/^\/en/, '') || '/';
   }
 
-  const bnUrl = `${BASE_URL}/bn${cleanPath === '/' ? '' : cleanPath}`;
-  const enUrl = `${BASE_URL}/en${cleanPath === '/' ? '' : cleanPath}`;
+  const bnUrl = `${BASE_URL}${cleanPath === '/' ? '' : cleanPath}`;
+  const enUrl = `${BASE_URL}${cleanPath === '/' ? '' : cleanPath}`;
   
   // Explicit self-referencing canonical
-  let canonicalUrl = `${BASE_URL}${raw === '/' ? '/bn' : raw}`;
-  if (raw === '/bn' || raw === '/en') {
-    canonicalUrl = `${BASE_URL}${raw}`;
-  }
+  const canonicalUrl = `${BASE_URL}${cleanPath === '/' ? '' : cleanPath}`;
 
   const langAttr = lang === 'en' ? 'en' : 'bn';
   const ogLocale = lang === 'en' ? 'en_US' : 'bn_BD';
-  const langPrefix = lang === 'en' ? '/en' : '/bn';
+  const langPrefix = '';
 
   let title = lang === 'en'
     ? 'Dreams Fly International | Premier Visa Processing & Travel Agency'
@@ -748,9 +745,7 @@ export function injectSeoIntoHtml(htmlIndex: string, pathname: string): string {
 
   // Prepare hreflang & og:locale tags
   const hreflangTags = `
-    <link rel="alternate" hreflang="bn" href="${seo.bnUrl}" />
-    <link rel="alternate" hreflang="en" href="${seo.enUrl}" />
-    <link rel="alternate" hreflang="x-default" href="${seo.enUrl}" />
+    <link rel="canonical" href="${seo.canonicalUrl}" />
     <meta property="og:locale" content="${seo.ogLocale}" />
   `.trim();
 

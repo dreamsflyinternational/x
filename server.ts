@@ -50,6 +50,19 @@ app.use((req, res, next) => {
 
 app.use(express.json({ limit: "10mb" }));
 
+// 301 Redirect legacy /bn/* and /en/* URLs to clean canonical URLs
+app.use((req, res, next) => {
+  const p = req.path;
+  if (p === "/bn" || p === "/en") {
+    return res.redirect(301, "/");
+  }
+  if (p.startsWith("/bn/") || p.startsWith("/en/")) {
+    const clean = p.replace(/^\/(bn|en)/, "") || "/";
+    return res.redirect(301, clean);
+  }
+  next();
+});
+
 // Fast Geo-IP Endpoint for Instant Client Language Determination
 app.get("/api/geo-ip", (req, res) => {
   const cfCountry = (req.headers["cf-ipcountry"] as string || "").toUpperCase();

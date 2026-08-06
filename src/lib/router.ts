@@ -251,10 +251,7 @@ export function formatPath(
   }
 
   if (lang === 'bn' || lang === 'en') {
-    if (basePath === '/') {
-      return `/${lang}`;
-    }
-    return `/${lang}${basePath}`;
+    return basePath;
   }
 
   return basePath;
