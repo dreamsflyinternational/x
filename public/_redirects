@@ -1,0 +1,2 @@
+# Netlify & Cloudflare Pages Rewrite Rules for SPA & SSG fallback
+/*    /index.html   200
