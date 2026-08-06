@@ -13,7 +13,12 @@ import {
   PhoneCall,
   Building,
   ShieldCheck,
-  FileCheck
+  FileCheck,
+  MessageCircle,
+  MapPin,
+  CheckCircle2,
+  ArrowRight,
+  Headphones
 } from 'lucide-react';
 import { ViewType } from '../types';
 import { useLanguage } from '../lib/i18n';
@@ -146,6 +151,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
                   <button
                     onClick={() => {
+                      onSelectView('hotel');
+                      setActiveDropdown(null);
+                    }}
+                    className="w-full text-left px-4 py-3 text-xs sm:text-sm hover:bg-slate-800 flex items-center space-x-3 text-slate-200 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <Building className="w-4 h-4 text-amber-400" />
+                    <span data-i18n="services.hotels">{t('services.hotels', 'Hotel Booking Services')}</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
                       onSelectView('umrah-hajj');
                       setActiveDropdown(null);
                     }}
@@ -224,79 +240,276 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-slate-900 border-t border-slate-800 px-4 pt-3 pb-6 space-y-2">
-          <button
-            onClick={() => {
-              onSelectView('home');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-white hover:bg-slate-800"
-            data-i18n="nav.home"
-          >
-            {t('nav.home', 'Home')}
-          </button>
-          <button
-            onClick={() => {
-              onSelectView('about');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-white hover:bg-slate-800"
-            data-i18n="nav.about"
-          >
-            {t('nav.about', 'About Us')}
-          </button>
-          <button
-            onClick={() => {
-              onSelectView('work-permit');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-white hover:bg-slate-800"
-            data-i18n="services.work_permit"
-          >
-            {t('services.work_permit', 'Work Permit Processing')}
-          </button>
-          <button
-            onClick={() => {
-              onSelectView('visa');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-white hover:bg-slate-800"
-            data-i18n="services.visa_assistance"
-          >
-            {t('services.visa_assistance', 'Global Visa Consultancy')}
-          </button>
-          <button
-            onClick={() => {
-              onSelectView('air-tickets');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-white hover:bg-slate-800"
-            data-i18n="services.air_tickets"
-          >
-            {t('services.air_tickets', 'Air Ticket Booking')}
-          </button>
-          <button
-            onClick={() => {
-              onSelectView('contact');
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold text-white hover:bg-slate-800"
-            data-i18n="nav.contact"
-          >
-            {t('nav.contact', 'Contact')}
-          </button>
+        <div className="lg:hidden bg-slate-950 border-t border-slate-800 px-4 py-6 space-y-5 animate-in slide-in-from-top-2 duration-200 max-h-[85vh] overflow-y-auto shadow-2xl">
+          
+          {/* Top Branding & Status Header */}
+          <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-850 p-4 rounded-2xl border border-slate-800 flex items-center justify-between shadow-inner">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-white shadow-md shadow-red-950/50">
+                <PlaneTakeoff className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-black text-white uppercase tracking-wider">Dreams Fly Int.</h4>
+                <p className="text-[10px] font-bold text-amber-400 flex items-center space-x-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400 inline" />
+                  <span>Govt Reg #10842 • 100% Verified</span>
+                </p>
+              </div>
+            </div>
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5" />
+              Online 24/7
+            </span>
+          </div>
 
-          <div className="pt-2">
+          {/* Quick Highlight Cards (2x2 Grid) */}
+          <div className="space-y-2">
+            <div className="text-[10px] font-black uppercase tracking-wider text-slate-500 px-1">
+              Popular Services / জনপ্রিয় সেবা
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              <button
+                onClick={() => {
+                  onSelectView('work-permit');
+                  setMobileMenuOpen(false);
+                }}
+                className={`p-3 rounded-2xl text-left border transition-all cursor-pointer relative overflow-hidden group ${
+                  currentView === 'work-permit'
+                    ? 'bg-gradient-to-br from-red-950/80 to-slate-900 border-red-500/80 ring-1 ring-red-500/50'
+                    : 'bg-slate-900/90 border-slate-800 hover:border-red-500/40 hover:bg-slate-900'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="w-8 h-8 rounded-xl bg-red-600/20 border border-red-500/30 text-red-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Briefcase className="w-4 h-4" />
+                  </div>
+                  <span className="text-[9px] font-black bg-red-600 text-white px-1.5 py-0.5 rounded-md uppercase">
+                    Hot
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">Work Permit</div>
+                <div className="text-[10px] text-slate-400 font-medium">ওয়ার্ক পারমিট ভিসা</div>
+              </button>
+
+              <button
+                onClick={() => {
+                  onSelectView('services');
+                  setMobileMenuOpen(false);
+                }}
+                className={`p-3 rounded-2xl text-left border transition-all cursor-pointer relative overflow-hidden group ${
+                  currentView === 'services'
+                    ? 'bg-gradient-to-br from-sky-950/80 to-slate-900 border-sky-500/80 ring-1 ring-sky-500/50'
+                    : 'bg-slate-900/90 border-slate-800 hover:border-sky-500/40 hover:bg-slate-900'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="w-8 h-8 rounded-xl bg-sky-600/20 border border-sky-500/30 text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <FileCheck className="w-4 h-4" />
+                  </div>
+                  <span className="text-[9px] font-black bg-sky-600 text-white px-1.5 py-0.5 rounded-md uppercase">
+                    99% Approval
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-white group-hover:text-sky-400 transition-colors">Visa Consultancy</div>
+                <div className="text-[10px] text-slate-400 font-medium">গ্লোবাল ভিসা প্রসেসিং</div>
+              </button>
+
+              <button
+                onClick={() => {
+                  onSelectView('air-tickets');
+                  setMobileMenuOpen(false);
+                }}
+                className={`p-3 rounded-2xl text-left border transition-all cursor-pointer relative overflow-hidden group ${
+                  currentView === 'air-tickets'
+                    ? 'bg-gradient-to-br from-emerald-950/80 to-slate-900 border-emerald-500/80 ring-1 ring-emerald-500/50'
+                    : 'bg-slate-900/90 border-slate-800 hover:border-emerald-500/40 hover:bg-slate-900'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Plane className="w-4 h-4" />
+                  </div>
+                  <span className="text-[9px] font-black bg-emerald-600 text-white px-1.5 py-0.5 rounded-md uppercase">
+                    Discount
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">Air Tickets</div>
+                <div className="text-[10px] text-slate-400 font-medium">বিমান টিকিট বুকিং</div>
+              </button>
+
+              <button
+                onClick={() => {
+                  onSelectView('umrah-hajj');
+                  setMobileMenuOpen(false);
+                }}
+                className={`p-3 rounded-2xl text-left border transition-all cursor-pointer relative overflow-hidden group ${
+                  currentView === 'umrah-hajj'
+                    ? 'bg-gradient-to-br from-amber-950/80 to-slate-900 border-amber-500/80 ring-1 ring-amber-500/50'
+                    : 'bg-slate-900/90 border-slate-800 hover:border-amber-500/40 hover:bg-slate-900'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="w-8 h-8 rounded-xl bg-amber-600/20 border border-amber-500/30 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Moon className="w-4 h-4" />
+                  </div>
+                  <span className="text-[9px] font-black bg-amber-600 text-white px-1.5 py-0.5 rounded-md uppercase">
+                    VIP Packages
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors">Umrah & Hajj</div>
+                <div className="text-[10px] text-slate-400 font-medium">পবিত্র উমরাহ ও হজ</div>
+              </button>
+            </div>
+          </div>
+
+          {/* Navigation Items List */}
+          <div className="space-y-1 bg-slate-900/50 p-2 rounded-2xl border border-slate-800/80">
+            <div className="px-3 py-1.5 text-[10px] font-black uppercase text-slate-500 tracking-wider">
+              Navigation Menu / নেভিগেশন
+            </div>
+
+            <button
+              onClick={() => {
+                onSelectView('home');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                currentView === 'home'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-slate-200 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <div className="flex items-center space-x-3">
+                <Compass className={`w-4 h-4 ${currentView === 'home' ? 'text-white' : 'text-red-500'}`} />
+                <span>{t('nav.home', 'Home')}</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+
+            <button
+              onClick={() => {
+                onSelectView('about');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                currentView === 'about'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-slate-200 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <div className="flex items-center space-x-3">
+                <ShieldCheck className={`w-4 h-4 ${currentView === 'about' ? 'text-white' : 'text-amber-400'}`} />
+                <span>{t('nav.about', 'About Us')}</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+
+            <button
+              onClick={() => {
+                onSelectView('hotel');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                currentView === 'hotel'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-slate-200 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <div className="flex items-center space-x-3">
+                <Building className={`w-4 h-4 ${currentView === 'hotel' ? 'text-white' : 'text-amber-400'}`} />
+                <span>{t('services.hotels', 'Hotel Booking Services')}</span>
+              </div>
+              <span className="text-[9px] font-extrabold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md border border-amber-500/30">
+                500k+ Hotels
+              </span>
+            </button>
+
+            <button
+              onClick={() => {
+                onSelectView('tours');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                currentView === 'tours'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-slate-200 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <div className="flex items-center space-x-3">
+                <Globe className={`w-4 h-4 ${currentView === 'tours' ? 'text-white' : 'text-purple-400'}`} />
+                <span>{t('services.tours', 'Global Tour Packages')}</span>
+              </div>
+              <span className="text-[9px] font-extrabold bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-md border border-purple-500/30">
+                Best Deals
+              </span>
+            </button>
+
+            <button
+              onClick={() => {
+                onSelectView('blog');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                currentView === 'blog'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-slate-200 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <div className="flex items-center space-x-3">
+                <Sparkles className={`w-4 h-4 ${currentView === 'blog' ? 'text-white' : 'text-blue-400'}`} />
+                <span>{t('nav.blog', 'News & Travel Updates')}</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+
+            <button
+              onClick={() => {
+                onSelectView('contact');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                currentView === 'contact'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-slate-200 hover:text-white hover:bg-slate-800/80'
+              }`}
+            >
+              <div className="flex items-center space-x-3">
+                <Headphones className={`w-4 h-4 ${currentView === 'contact' ? 'text-white' : 'text-emerald-400'}`} />
+                <span>{t('nav.contact', 'Contact Us & Office Location')}</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+            </button>
+          </div>
+
+          {/* Action CTAs & Direct Contact */}
+          <div className="pt-2 border-t border-slate-800/80 space-y-2.5">
             <button
               onClick={() => {
                 onOpenBookingModal();
                 setMobileMenuOpen(false);
               }}
-              className="w-full py-3.5 bg-red-600 text-white rounded-xl font-bold text-sm text-center shadow"
+              className="w-full py-3.5 bg-gradient-to-r from-red-600 via-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white rounded-2xl font-black text-xs uppercase tracking-wider text-center shadow-lg shadow-red-950/60 flex items-center justify-center space-x-2 transition-all cursor-pointer"
               data-i18n="nav.free_consultation"
             >
-              {t('nav.free_consultation', 'Free Consultation')}
+              <PhoneCall className="w-4 h-4 text-white" />
+              <span>{t('nav.free_consultation', 'Free Consultation (ফ্রি পরামর্শ)')}</span>
             </button>
+
+            <a
+              href="https://wa.me/8801771304219?text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%82%E0%A6%95%E0%A7%81%E0%A6%AE"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full py-3 bg-emerald-600/15 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 rounded-2xl font-bold text-xs text-center flex items-center justify-center space-x-2.5 transition-all cursor-pointer shadow-md"
+            >
+              <MessageCircle className="w-4 h-4 text-emerald-400 inline" />
+              <span>Direct WhatsApp (+880 1771-304219)</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            </a>
+
+            <div className="pt-1 flex items-center justify-center space-x-2 text-[10px] text-slate-400 font-medium">
+              <MapPin className="w-3 h-3 text-red-500" />
+              <span>Motijheel C/A, Dhaka-1000 • Govt Licensed</span>
+            </div>
           </div>
         </div>
       )}

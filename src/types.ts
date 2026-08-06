@@ -6,6 +6,7 @@ export type ViewType =
   | 'country-detail'
   | 'visa'
   | 'air-tickets'
+  | 'airline-detail'
   | 'work-permit'
   | 'umrah-hajj'
   | 'umrah-detail'

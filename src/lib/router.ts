@@ -7,6 +7,7 @@ export interface RouteState {
   hotelId?: string;
   tourId?: string;
   umrahId?: string;
+  airlineId?: string;
   citySlug?: string;
   lang?: 'bn' | 'en';
 }
@@ -63,6 +64,21 @@ export function parsePath(pathname: string): RouteState {
   }
   if (cleanPath === '/umrah') {
     return { view: 'umrah-hajj', lang };
+  }
+
+  if (cleanPath.startsWith('/airline/')) {
+    const airlineId = cleanPath.replace('/airline/', '').trim();
+    if (airlineId) {
+      return { view: 'airline-detail', airlineId, lang };
+    }
+    return { view: 'air-tickets', lang };
+  }
+  if (cleanPath.startsWith('/air-tickets/airline/')) {
+    const airlineId = cleanPath.replace('/air-tickets/airline/', '').trim();
+    if (airlineId) {
+      return { view: 'airline-detail', airlineId, lang };
+    }
+    return { view: 'air-tickets', lang };
   }
 
   if (cleanPath === '/air-tickets' || cleanPath === '/tickets') {
@@ -162,6 +178,7 @@ export function formatPath(
     hotelId?: string;
     tourId?: string;
     umrahId?: string;
+    airlineId?: string;
     citySlug?: string;
   } | string,
   lang?: 'bn' | 'en'
@@ -196,7 +213,10 @@ export function formatPath(
       basePath = `/umrah/${p.umrahId || 'economy'}`;
       break;
     case 'air-tickets':
-      basePath = '/air-tickets';
+      basePath = p.airlineId ? `/airline/${p.airlineId}` : '/air-tickets';
+      break;
+    case 'airline-detail':
+      basePath = `/airline/${p.airlineId || 'emirates'}`;
       break;
     case 'tours':
       basePath = p.tourId ? `/tour/${p.tourId}` : '/tours';

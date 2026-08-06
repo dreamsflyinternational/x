@@ -23,6 +23,7 @@ const WorkPermitsView = lazy(() => import('./views/WorkPermitsView').then(m => (
 const UmrahView = lazy(() => import('./views/UmrahView').then(m => ({ default: m.UmrahView })));
 const ToursView = lazy(() => import('./views/ToursView').then(m => ({ default: m.ToursView })));
 const AirTicketingView = lazy(() => import('./views/AirTicketingView').then(m => ({ default: m.AirTicketingView })));
+const AirlineDetailPage = lazy(() => import('./views/AirlineDetailPage').then(m => ({ default: m.AirlineDetailPage })));
 const HotelBookingView = lazy(() => import('./views/HotelBookingView').then(m => ({ default: m.HotelBookingView })));
 const BlogView = lazy(() => import('./views/BlogView').then(m => ({ default: m.BlogView })));
 const ContactView = lazy(() => import('./views/ContactView').then(m => ({ default: m.ContactView })));
@@ -50,6 +51,7 @@ export default function App() {
   const [selectedHotelId, setSelectedHotelId] = useState<string | null>(initialRoute.hotelId || null);
   const [selectedTourId, setSelectedTourId] = useState<string | undefined>(initialRoute.tourId);
   const [selectedUmrahId, setSelectedUmrahId] = useState<string | undefined>(initialRoute.umrahId);
+  const [selectedAirlineId, setSelectedAirlineId] = useState<string>(initialRoute.airlineId || 'emirates');
   const [selectedCitySlug, setSelectedCitySlug] = useState<string | undefined>(initialRoute.citySlug);
   const [selectedServiceModal, setSelectedServiceModal] = useState<ServiceDetailItem | null>(null);
   const [currency, setCurrency] = useState<'BDT' | 'USD'>('BDT');
@@ -88,6 +90,13 @@ export default function App() {
     navigateToPath(path);
   };
 
+  const handleSelectAirline = (airlineId: string) => {
+    setSelectedAirlineId(airlineId);
+    setCurrentViewState('airline-detail');
+    const path = formatPath('airline-detail', { airlineId }, getCurrentLang());
+    navigateToPath(path);
+  };
+
   // Sync back/forward browser button navigation
   useEffect(() => {
     const handlePopState = () => {
@@ -98,6 +107,7 @@ export default function App() {
       if (route.hotelId) setSelectedHotelId(route.hotelId);
       if (route.tourId) setSelectedTourId(route.tourId);
       if (route.umrahId) setSelectedUmrahId(route.umrahId);
+      if (route.airlineId) setSelectedAirlineId(route.airlineId);
       if (route.citySlug) setSelectedCitySlug(route.citySlug);
     };
 
@@ -217,7 +227,21 @@ export default function App() {
         )}
 
         {currentView === 'air-tickets' && (
-          <AirTicketingView currency={currency} onOpenBookingModal={handleOpenBookingModal} />
+          <AirTicketingView
+            currency={currency}
+            onOpenBookingModal={handleOpenBookingModal}
+            onSelectAirline={handleSelectAirline}
+          />
+        )}
+
+        {currentView === 'airline-detail' && (
+          <AirlineDetailPage
+            airlineId={selectedAirlineId}
+            currency={currency}
+            onBack={() => setCurrentView('air-tickets')}
+            onSelectAirline={handleSelectAirline}
+            onOpenBookingModal={handleOpenBookingModal}
+          />
         )}
 
         {(currentView === 'tours' || currentView === 'tour-detail') && (
