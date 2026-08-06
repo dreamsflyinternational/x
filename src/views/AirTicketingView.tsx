@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PriceNotice } from '../components/PriceNotice';
+import { CountryFlagSvg } from '../components/CountryFlagSvg';
 import {
   Plane,
   Calendar,
@@ -569,8 +570,9 @@ export const AirTicketingView: React.FC<AirTicketingViewProps> = ({
 
             {requirementRules[reqCountry] && (
               <div className="bg-white p-6 rounded-2xl border border-gray-200 space-y-4">
-                <h4 className="text-base font-black text-[#DC2626] border-b pb-2">
-                  {requirementRules[reqCountry].title}
+                <h4 className="text-base font-black text-[#DC2626] border-b pb-2 flex items-center gap-2">
+                  <CountryFlagSvg countryId={reqCountry === 'saudi' ? 'saudi-arabia' : reqCountry === 'uae' ? 'dubai' : reqCountry} className="w-6 h-4 rounded-xs" />
+                  <span>{requirementRules[reqCountry].title.replace(/^[\uD83C-\uDBFF\uDC00-\uDFFF\s]+/, '')}</span>
                 </h4>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">

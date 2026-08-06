@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PriceNotice } from '../components/PriceNotice';
+import { CountryFlagSvg } from '../components/CountryFlagSvg';
 import {
   Briefcase,
   CheckCircle2,
@@ -386,10 +387,11 @@ export const WorkPermitsView: React.FC<WorkPermitsViewProps> = ({ onOpenBookingM
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <div className="flex items-center space-x-3">
-                    <span className="text-3xl shadow-sm">{item.flag}</span>
+                    <CountryFlagSvg countryId={item.id} className="w-8 h-6 rounded border border-slate-200 shadow-2xs" />
                     <div>
-                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-sky-600 transition-colors">
-                        {item.name} ({item.nameBn})
+                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-sky-600 transition-colors flex items-center gap-1.5">
+                        <span>{item.name}</span>
+                        <span className="text-xs font-normal text-slate-500">({item.nameBn})</span>
                       </h3>
                       <span className="text-[11px] font-extrabold uppercase text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
                         {item.regionName}

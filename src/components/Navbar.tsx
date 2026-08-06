@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Plane,
+  PlaneTakeoff,
   ChevronDown,
   Menu,
   X,
@@ -43,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
-          {/* Handcrafted Enterprise Brand Logo */}
+          {/* Handcrafted Enterprise Brand Logo with Travel Icon */}
           <div
             onClick={() => {
               onSelectView('home');
@@ -51,15 +52,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="flex items-center space-x-3 cursor-pointer group"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform border border-red-500/30">
-              <span className="text-white font-extrabold text-lg tracking-tight">DF</span>
+            <div className="w-11 h-11 bg-gradient-to-tr from-red-600 via-red-700 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all duration-300 border border-white/20 relative overflow-hidden">
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <PlaneTakeoff className="w-6 h-6 text-white transform -rotate-6 group-hover:rotate-0 transition-transform duration-300 drop-shadow-md" />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-base sm:text-lg tracking-tight uppercase leading-none font-sans text-white">
-                Dreams Fly
-              </span>
-              <span className="text-[10px] tracking-[0.2em] font-bold text-red-400 uppercase mt-0.5">
-                International
+              <div className="flex items-center space-x-1">
+                <span className="font-black text-lg sm:text-xl tracking-tight uppercase leading-none font-sans text-white drop-shadow-xs">
+                  Dreams Fly
+                </span>
+                <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse hidden sm:inline-block" />
+              </div>
+              <span className="text-[10px] tracking-[0.22em] font-extrabold text-red-400 uppercase mt-0.5 flex items-center gap-1">
+                <Globe className="w-2.5 h-2.5 inline text-amber-400" />
+                <span>International</span>
               </span>
             </div>
           </div>

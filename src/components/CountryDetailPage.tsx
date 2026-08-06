@@ -1,6 +1,7 @@
 import React from 'react';
 import { CountryData } from '../types';
 import { PriceNotice } from './PriceNotice';
+import { CountryFlagSvg } from './CountryFlagSvg';
 import {
   CheckCircle2,
   Clock,
@@ -55,13 +56,13 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
 
         <div className="relative z-10 p-6 sm:p-12 max-w-2xl space-y-4 text-white">
           <div className="flex items-center space-x-3">
-            <span className="text-4xl sm:text-5xl">{country.flag}</span>
+            <CountryFlagSvg countryId={country.id} className="w-12 h-9 rounded-lg border border-white/30 shadow-lg" />
             <div>
-              <span className="text-xs font-black uppercase tracking-widest text-[#DC2626]">
+              <span className="text-xs font-black uppercase tracking-widest text-red-400">
                 {country.region} গন্তব্য
               </span>
-              <h1 className="text-3xl sm:text-5xl font-black font-sans text-white tracking-tight">
-                {country.name} ভিসা
+              <h1 className="text-3xl sm:text-5xl font-black font-sans text-white tracking-tight flex items-center gap-2">
+                <span>{country.name} ভিসা</span>
               </h1>
             </div>
           </div>

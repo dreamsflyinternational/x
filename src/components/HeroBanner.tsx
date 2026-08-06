@@ -14,6 +14,7 @@ import {
 import { ViewType } from '../types';
 import { useLanguage } from '../lib/i18n';
 import { CountUpNumber } from './CountUpNumber';
+import { CountryFlagSvg } from './CountryFlagSvg';
 
 interface HeroBannerProps {
   currency: 'BDT' | 'USD';
@@ -24,6 +25,7 @@ interface HeroBannerProps {
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({
+  onSelectCountry,
   onOpenBookingModal,
   onOpenAiPlanner,
 }) => {
@@ -70,8 +72,32 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             </h1>
 
             <p className="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed" data-i18n="hero.subtitle">
-              {t('hero.subtitle', 'Trusted processing for Canada, UK, USA, Europe Schengen, Japan, Australia, Umrah, and Global Air Ticketing. High approval rate with 100% transparent guidance.')}
+              {t('hero.subtitle', 'কানাডা, যুক্তরাজ্য, যুক্তরাষ্ট্র, ইউরোপ শেনজেন, হাঙ্গেরি, রোমানিয়া, দুবাই, সৌদি আরব, মালয়েশিয়া ও বিশ্বের বিভিন্ন দেশের বিশ্বস্ত ভিসা ও ওয়ার্ক পারমিট প্রসেসিং।')}
             </p>
+
+            {/* Country Flag Badges Row */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1">
+              {[
+                { id: 'canada', name: 'কানাডা' },
+                { id: 'uk', name: 'যুক্তরাজ্য' },
+                { id: 'usa', name: 'যুক্তরাষ্ট্র' },
+                { id: 'hungary', name: 'হাঙ্গেরি' },
+                { id: 'slovenia', name: 'স্লোভেনিয়া' },
+                { id: 'romania', name: 'রোমানিয়া' },
+                { id: 'dubai', name: 'দুবাই' },
+                { id: 'saudi-arabia', name: 'সৌদি আরব' },
+                { id: 'malaysia', name: 'মালয়েশিয়া' }
+              ].map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => onSelectCountry(c.id)}
+                  className="inline-flex items-center space-x-1.5 px-2.5 py-1 bg-slate-900/80 hover:bg-red-950/80 border border-slate-800 hover:border-red-600/50 rounded-lg text-[11px] font-bold text-slate-200 transition-all shadow-xs cursor-pointer"
+                >
+                  <CountryFlagSvg countryId={c.id} className="w-3.5 h-2.5" />
+                  <span>{c.name}</span>
+                </button>
+              ))}
+            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">

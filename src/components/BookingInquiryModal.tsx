@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, X, Sparkles } from 'lucide-react';
 import { COUNTRIES } from '../data/countries';
+import { CountryFlagSvg, getCountryCodeFromName } from './CountryFlagSvg';
 
 interface BookingInquiryModalProps {
   initialServiceType?: string;
@@ -150,7 +151,10 @@ export const BookingInquiryModal: React.FC<BookingInquiryModalProps> = ({
               </div>
 
               <div>
-                <label className="block font-bold text-gray-700 mb-1">গন্তব্য দেশ</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block font-bold text-gray-700">গন্তব্য দেশ</label>
+                  <CountryFlagSvg countryId={getCountryCodeFromName(destinationCountry)} className="w-5 h-3.5 rounded-xs border border-gray-200" />
+                </div>
                 <select
                   value={destinationCountry}
                   onChange={(e) => setDestinationCountry(e.target.value)}

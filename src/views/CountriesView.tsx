@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { COUNTRIES } from '../data/countries';
 import { Search } from 'lucide-react';
 import { PriceNotice } from '../components/PriceNotice';
+import { CountryFlagSvg } from '../components/CountryFlagSvg';
 
 interface CountriesViewProps {
   currency: 'BDT' | 'USD';
@@ -74,7 +75,9 @@ export const CountriesView: React.FC<CountriesViewProps> = ({
             <div className="relative h-44 overflow-hidden">
               <img src={c.heroImage} alt={c.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
-              <span className="absolute top-3 left-3 text-3xl shadow-lg">{c.flag}</span>
+              <div className="absolute top-3 left-3 flex items-center space-x-1.5 bg-slate-900/80 backdrop-blur-md p-1.5 rounded-lg border border-white/20 shadow-md">
+                <CountryFlagSvg countryId={c.id} className="w-6 h-4 rounded-xs" />
+              </div>
               <span className="absolute top-3 right-3 bg-white/95 backdrop-blur-md text-emerald-700 border border-emerald-200 font-extrabold text-[10px] px-2.5 py-1 rounded-full shadow-sm">
                 {c.successRate}% সফলতা
               </span>
@@ -85,8 +88,9 @@ export const CountriesView: React.FC<CountriesViewProps> = ({
                 <span className="text-[10px] font-black uppercase text-[#DC2626] tracking-wider block">
                   {c.region}
                 </span>
-                <h3 className="text-xl font-bold font-sans text-gray-900 group-hover:text-[#DC2626] transition-colors">
-                  {c.name}
+                <h3 className="text-xl font-bold font-sans text-gray-900 group-hover:text-[#DC2626] transition-colors flex items-center gap-2 mt-1">
+                  <CountryFlagSvg countryId={c.id} className="w-5 h-3.5 rounded-xs" />
+                  <span>{c.name}</span>
                 </h3>
                 <p className="text-xs text-gray-600 line-clamp-2 mt-1 leading-relaxed">
                   {c.overview}

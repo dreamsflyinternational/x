@@ -8,7 +8,9 @@ import {
   Globe,
   ChevronRight,
   FileCode,
-  CheckCircle2
+  CheckCircle2,
+  PlaneTakeoff,
+  Sparkles
 } from 'lucide-react';
 import { ViewType } from '../types';
 import { COUNTRIES } from '../data/countries';
@@ -50,15 +52,19 @@ export const Footer: React.FC<FooterProps> = ({
               onClick={() => onSelectView('home')}
               className="flex items-center space-x-3 cursor-pointer group inline-flex"
             >
-              <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center shadow-md">
-                <span className="text-white font-extrabold text-lg tracking-tight">DF</span>
+              <div className="w-11 h-11 bg-gradient-to-tr from-red-600 via-red-700 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all duration-300 border border-white/20">
+                <PlaneTakeoff className="w-6 h-6 text-white transform -rotate-6 group-hover:rotate-0 transition-transform duration-300 drop-shadow-md" />
               </div>
               <div>
-                <span className="text-xl font-extrabold text-white tracking-tight uppercase">
-                  Dreams Fly
-                </span>
-                <span className="block text-[9px] uppercase tracking-[0.2em] text-red-400 font-bold">
-                  International
+                <div className="flex items-center space-x-1">
+                  <span className="text-xl font-black text-white tracking-tight uppercase">
+                    Dreams Fly
+                  </span>
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                </div>
+                <span className="block text-[10px] uppercase tracking-[0.22em] text-red-400 font-extrabold flex items-center gap-1">
+                  <Globe className="w-2.5 h-2.5 inline text-amber-400" />
+                  <span>International</span>
                 </span>
               </div>
             </div>

@@ -39,6 +39,7 @@ import {
 } from 'lucide-react';
 
 import { navigateToPath } from '../lib/router';
+import { CountryFlagSvg } from '../components/CountryFlagSvg';
 
 interface ToursViewProps {
   currency?: 'BDT' | 'USD';
@@ -1527,8 +1528,9 @@ export const ToursView: React.FC<ToursViewProps> = ({
                   </div>
 
                   <div className="absolute bottom-3 left-3 right-3 text-white">
-                    <span className="text-[10px] uppercase font-bold text-amber-300 block">
-                      {pkg.country}
+                    <span className="text-[10px] uppercase font-bold text-amber-300 flex items-center gap-1.5 mb-0.5">
+                      <CountryFlagSvg countryId={pkg.country.toLowerCase()} className="w-4 h-2.5 rounded-2xs inline-block" />
+                      <span>{pkg.country}</span>
                     </span>
                     <h3 className="text-lg font-black font-sans leading-snug line-clamp-1">{pkg.titleBn}</h3>
                   </div>
